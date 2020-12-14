@@ -1,0 +1,62 @@
+.navbar-brand
+{
+  font-size: 30px;
+  background-color: lightseagreen;
+  font-family: serif;
+  font-weight: bold;
+  display: inline-block;
+  padding: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
+  border-radius: 3px;
+}
+h1
+{
+ color: rgb(63, 59, 110); 
+ font-size: 20px;
+ text-align: center
+}
+
+td
+{
+  text-align: left;
+  left: 0%;
+}
+
+tr
+{
+  text-align: left;
+}
+
+th
+{
+  text-align: left;
+}
+
+.borderless {
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-bottom-style: none;
+}
+h3
+{
+  color: lightseagreen; 
+  font-size: 20px;
+  text-align: center
+  
+}
+img
+{
+align-content: center ;
+
+}
+
+h2
+{
+ color: lightseagreen; 
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
