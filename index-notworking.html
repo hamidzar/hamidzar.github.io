@@ -48,7 +48,11 @@
         data.forEach(row => {
           const option = document.createElement("option");
 
-
+          if (height <= 0 && dbh <= 0) {
+            document.getElementById("result").innerText = "Condition not met: height must be 0 and DBH must be greater than 0.";
+            document.getElementById("dropdown").innerHTML = "";
+            return;
+          }
 
           if (height === 0 && dbh > 0) {
           option.value = row.estimatebwood1 * DBH;
