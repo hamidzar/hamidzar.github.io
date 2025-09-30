@@ -40,20 +40,38 @@
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
     const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
 
+    if (!(height === 0 && dbh === 0)) {
+        document.getElementById("result").innerText = "Condition not met: height must be 0 and dbh must be non-zero.";
+        document.getElementById("dropdown").innerHTML = "";
+        return;
+      }
+
       d3.csv(csvUrl).then(data => {
         const dropdown = document.getElementById("dropdown");
         dropdown.innerHTML = ""; // Clear previous options
 
         data.forEach(row => {
           const option = document.createElement("option");
-          option.value = row.estimatebwood1;
+
+
+
+          if (height === 0 && dbh !== 0) {
+          option.value = row.estimatebwood1 * DBH;
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
+          }
+
+          if (height !== 0 && dbh !== 0) {
+          option.value = row.estimatebwood1 * DBH;
+          option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
+          dropdown.appendChild(option);
+          }
+
         });
 
         dropdown.addEventListener("change", function () {
           const selectedestimatebwood1 = +this.value;
-          const result = selectedestimatebwood1 * 5;
+          const result = selectedestimatebwood1;
           document.getElementById("result").innerText = `Result: ${result}`;
         });
 
