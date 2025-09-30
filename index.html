@@ -18,8 +18,8 @@
       // Populate dropdown with values from column 2 (assumed to be 'value')
       data.forEach((row, index) => {
         const option = document.createElement("option");
-        option.value = row.value;
-        option.text = row.value;
+        option.value = row.Humidity;
+        option.text = row.City;
         dropdown.appendChild(option);
       });
 
