@@ -65,11 +65,11 @@
         dropdown.addEventListener("change", function () {
           const selectedestimatebwood1 = +this.value;
 
-          if (height >= 0 && DBH > 0){
-          const result = selectedestimatebwood1 * DBH * height ;
+          if (height > 0 && dbh > 0){
+          const result = selectedestimatebwood1 * dbh * height ;
           }
-          if (height === 0 && DBH > 0){
-          const result = selectedestimatebwood1 * DBH ;
+          if (height === 0 && dbh > 0){
+          const result = selectedestimatebwood1 * dbh ;
           }
           document.getElementById("result").innerText = `Result: ${result}`;
         });
