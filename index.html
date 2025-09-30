@@ -41,12 +41,7 @@
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
     const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
  
-      if (dbh === 0) {
-        document.getElementById("result").innerText = "DBH cannot be zero.";
-        document.getElementById("dropdown").innerHTML = "";
-        return;
-      }
-
+ 
       d3.csv(csvUrl).then(data => {
         const dropdown = document.getElementById("dropdown");
         dropdown.innerHTML = ""; // Clear previous options
