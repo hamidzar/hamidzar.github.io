@@ -35,49 +35,33 @@
 
   <script>
   function loadCSV() {
-    const height = parseFloat(document.getElementById("heightInput").value);
-    const dbh = parseFloat(document.getElementById("dbhInput").value);
-
-     if (!(height === 0 && dbh > 0)) {
-        document.getElementById("result").innerText = "Wrong parameters: height must be 0 and DBH must be > 0.";
-        document.getElementById("dropdown").innerHTML = "";
-        return;
-      }
+    const height = parseFloat(document.getElementById("heightInput").value) || 0;
+    const dbh = parseFloat(document.getElementById("dbhInput").value) || 0;
     const aCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBnoHeight.csv"; // Replace with your actual CSV URL
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
     const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
  
-   
-
-
+      
       d3.csv(csvUrl).then(data => {
         const dropdown = document.getElementById("dropdown");
         dropdown.innerHTML = ""; // Clear previous options
 
-         
-
         data.forEach(row => {
           const option = document.createElement("option");
 
-         
-          if (height === 0 && dbh > 0) {
-          option.value = row.estimatebwood1 * DBH;
-          option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
-          dropdown.appendChild(option);
 
-          } else if (height > 0 && dbh > 0) {
+
+          if (height === 0 && dbh !== 0) {
           option.value = row.estimatebwood1 * DBH;
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
-                    
-          } else {      
-        
-            document.getElementById("result").innerText = "Condition not met: height must not be 0 and DBH must be greater than 0.";
-            document.getElementById("dropdown").innerHTML = "";
-            return;
           }
 
-         
+          if (height !== 0 && dbh !== 0) {
+          option.value = row.estimatebwood1 * DBH;
+          option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
+          dropdown.appendChild(option);
+          }
 
         });
 
