@@ -40,8 +40,8 @@
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
     const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
 
-    if (!(height === 0 && dbh === 0)) {
-        document.getElementById("result").innerText = "Condition not met: height must be 0 and dbh must be non-zero.";
+    if ((dbh === 0)) {
+        document.getElementById("result").innerText = "Condition not met: dbh must be non-zero.";
         document.getElementById("dropdown").innerHTML = "";
         return;
       }
