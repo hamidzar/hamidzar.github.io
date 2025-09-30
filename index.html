@@ -46,14 +46,30 @@
 
         data.forEach(row => {
           const option = document.createElement("option");
+
+
+        if (height === 0 && DBH > 0) {  
           option.value = row.estimatebwood1;
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
-        });
+        } 
+        
+        if (height >= 0 && DBH > 0){
+          option.value = row.estimatebwood1;
+          option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
+          dropdown.appendChild(option);
+
+        }
 
         dropdown.addEventListener("change", function () {
           const selectedestimatebwood1 = +this.value;
-          const result = selectedestimatebwood1 * 5;
+
+          if (height >= 0 && DBH > 0){
+          const result = selectedestimatebwood1 * DBH * height ;
+          }
+          if (height === 0 && DBH > 0){
+          const result = selectedestimatebwood1 * DBH ;
+          }
           document.getElementById("result").innerText = `Result: ${result}`;
         });
 
