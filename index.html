@@ -25,10 +25,14 @@
 
   <label for="heightInput">Height:</label>
   <input type="number" id="heightInput" step="0.01" value="0" />
+  <button onclick="loadCSV()">Load Data</button>
+
+  <br><br>
   <select id="dropdown"></select>
   <p id="result"></p>
 
   <script>
+  function loadCSV() {
     const height = parseFloat(document.getElementById("heightInput").value) || 0;
     const aCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBnoHeight.csv"; // Replace with your actual CSV URL
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
@@ -53,6 +57,7 @@
 
         dropdown.dispatchEvent(new Event("change")); // Trigger initial calculation
       });
+  }    
   </script>
 </body>
 </html>
