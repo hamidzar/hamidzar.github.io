@@ -38,7 +38,7 @@
     const height = parseFloat(document.getElementById("heightInput").value);
     const dbh = parseFloat(document.getElementById("dbhInput").value);
 
-     if (!(height >= 0 && dbh > 0)) {
+     if (!(height === 0 && dbh > 0)) {
         document.getElementById("result").innerText = "Wrong parameters: height must be 0 and DBH must be > 0.";
         document.getElementById("dropdown").innerHTML = "";
         return;
