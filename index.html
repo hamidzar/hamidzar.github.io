@@ -36,12 +36,13 @@
   <script>
   function loadCSV() {
     const height = parseFloat(document.getElementById("heightInput").value) || 0;
+    const dbh = parseFloat(document.getElementById("dbhInput").value) || 0;
     const aCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBnoHeight.csv"; // Replace with your actual CSV URL
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
     const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
-
-    if (!(dbh === 0)) {
-        document.getElementById("result").innerText = "Condition not met: dbh must be non-zero.";
+ 
+      if (dbh === 0) {
+        document.getElementById("result").innerText = "DBH cannot be zero.";
         document.getElementById("dropdown").innerHTML = "";
         return;
       }
