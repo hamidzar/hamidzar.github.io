@@ -37,6 +37,13 @@
   function loadCSV() {
     const height = parseFloat(document.getElementById("heightInput").value);
     const dbh = parseFloat(document.getElementById("dbhInput").value);
+
+    if (!(dbh > 0)) {
+        document.getElementById("result").innerText = "Wrong parameters: height must be 0 and DBH must be > 0.";
+        document.getElementById("dropdown").innerHTML = "";
+        return;
+      }
+
     const aCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBnoHeight.csv"; // Replace with your actual CSV URL
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
     const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
@@ -51,29 +58,25 @@
 
         if (height === 0 && dbh > 0) {  
           option.value = row.estimatebwood1;
+          const estimatebwood1DBH = estimatebwood1 * dbh
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
         } 
         
         if (height > 0 && dbh > 0){
           option.value = row.estimatebwood1;
+          const estimatebwood1DBH = estimatebwood1 * dbh * height
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
 
         }
         });
-        
-        dropdown.addEventListener("change", function () {
-          const selectedestimatebwood1 = +this.value;
 
-          if (height > 0 && dbh > 0){
-          const result = selectedestimatebwood1 * dbh * height ;
-          }
-          if (height === 0 && dbh > 0){
-          const result = selectedestimatebwood1 * dbh ;
-          }
-          document.getElementById("result").innerText = `Result: ${result}`;
+        dropdown.addEventListener("change", function () {
+          
+          document.getElementById("result").innerText = `Result: value3 × 3 = ${this.value}`;
         });
+        
 
         dropdown.dispatchEvent(new Event("change")); // Trigger initial calculation
       });
