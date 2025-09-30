@@ -50,14 +50,14 @@
 
 
 
-          if (height === 0 && dbh !== 0) {
+          if (height === 0 && dbh > 0) {
           option.value = row.estimatebwood1 * DBH;
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
 
           }
 
-          if (height !== 0 && dbh !== 0) {
+          if (height > 0 && dbh > 0) {
           option.value = row.estimatebwood1 * DBH;
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
