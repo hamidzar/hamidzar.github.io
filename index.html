@@ -10,23 +10,23 @@
   <p id="result"></p>
 
   <script>
-    const csvUrl = "https://github.com/hamidzar/hamidzar.github.io/assets/cities.csv"; // Replace with your actual CSV URL
+    const csvUrl = "https://github.com/hamidzar/hamidzar.github.io/blob/main/assets/cities.csv"; // Replace with your actual CSV URL
 
-    d3.csv(csvUrl).then(data => {
+      d3.csv(csvUrl).then(data => {
       const dropdown = document.getElementById("dropdown");
 
-      // Populate dropdown with values from column 2 (assumed to be 'value')
-      data.forEach((row, index) => {
+      // Populate dropdown with city and humidity
+      data.forEach(row => {
         const option = document.createElement("option");
-        option.value = row.Humidity;
-        option.text = row.City;
+        option.value = row.humidity;
+        option.text = `${row.city} (${row.humidity}%)`;
         dropdown.appendChild(option);
       });
 
       // Handle selection change
       dropdown.addEventListener("change", function () {
-        const selectedValue = +this.value; // Convert to number
-        const result = selectedValue * 3;
+        const selectedHumidity = +this.value;
+        const result = selectedHumidity * 5;
         document.getElementById("result").innerText = `Result: ${result}`;
       });
 
@@ -36,5 +36,4 @@
   </script>
 </body>
 </html>
-
 
