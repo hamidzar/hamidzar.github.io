@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Biomass App</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Biomass Calculation</h2>
+
+  <div class="div-1">
+
+    <div class="row">
+      <div class="col-md-1">
+          <nav class="navbar navbar-light">
+              <a class="navbar-brand" href="/" style="color: white">
+                  <span class="mb-0 h6"></span>&nbsp;Biomass&nbsp;</a></span>
+                  
+              </a>
+          </nav>
+      </div>
+  <div class="col-md-9">
+  </div>
+
+
+  <label for="heightInput">Height:</label>
+  <input type="number" id="heightInput" step="0.01" value="0" />
+  <label for="DBH">DBH:</label>
+  <input type="number" id="DBH" step="0.01" value="0" />
+  <button onclick="loadCSV()">Load Data</button>
+
+  <br><br>
+  <select id="dropdown"></select>
+  <p id="result"></p>
+
+  <script>
+  function loadCSV() {
+    const height = parseFloat(document.getElementById("heightInput").value) || 0;
+    const aCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBnoHeight.csv"; // Replace with your actual CSV URL
+    const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
+    const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
+
+      d3.csv(csvUrl).then(data => {
+        const dropdown = document.getElementById("dropdown");
+        dropdown.innerHTML = ""; // Clear previous options
+
+        data.forEach(row => {
+          const option = document.createElement("option");
+          option.value = row.estimatebwood1;
+          option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
+          dropdown.appendChild(option);
+        });
+
+        dropdown.addEventListener("change", function () {
+          const selectedestimatebwood1 = +this.value;
+          const result = selectedestimatebwood1 * 5;
+          document.getElementById("result").innerText = `Result: ${result}`;
+        });
+
+        dropdown.dispatchEvent(new Event("change")); // Trigger initial calculation
+      });
+  }    
+  </script>
+</body>
+</html>
+
