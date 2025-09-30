@@ -36,38 +36,24 @@
   <script>
   function loadCSV() {
     const height = parseFloat(document.getElementById("heightInput").value) || 0;
-    const dbh = parseFloat(document.getElementById("dbhInput").value) || 0;
     const aCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBnoHeight.csv"; // Replace with your actual CSV URL
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
     const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
- 
- 
+
       d3.csv(csvUrl).then(data => {
         const dropdown = document.getElementById("dropdown");
         dropdown.innerHTML = ""; // Clear previous options
 
         data.forEach(row => {
           const option = document.createElement("option");
-
-
-
-          if (height === 0 && dbh !== 0) {
-          option.value = row.estimatebwood1 * DBH;
+          option.value = row.estimatebwood1;
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
-          }
-
-          if (height !== 0 && dbh !== 0) {
-          option.value = row.estimatebwood1 * DBH;
-          option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
-          dropdown.appendChild(option);
-          }
-
         });
 
         dropdown.addEventListener("change", function () {
           const selectedestimatebwood1 = +this.value;
-          const result = selectedestimatebwood1;
+          const result = selectedestimatebwood1 * 5;
           document.getElementById("result").innerText = `Result: ${result}`;
         });
 
