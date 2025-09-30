@@ -45,15 +45,16 @@
         const dropdown = document.getElementById("dropdown");
         dropdown.innerHTML = ""; // Clear previous options
 
-        data.forEach(row => {
-          const option = document.createElement("option");
-
-          if (height < 0 || dbh <= 0) {
-            document.getElementById("result").innerText = "Condition not met: height must be 0 and DBH must be greater than 0.";
+         if (height < 0 || dbh <= 0) {
+            document.getElementById("result").innerText = "Condition not met: height must not be 0 and DBH must be greater than 0.";
             document.getElementById("dropdown").innerHTML = "";
             return;
           }
 
+        data.forEach(row => {
+          const option = document.createElement("option");
+
+         
           if (height === 0 && dbh > 0) {
           option.value = row.estimatebwood1 * DBH;
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
