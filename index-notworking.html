@@ -35,17 +35,19 @@
 
   <script>
   function loadCSV() {
-    const height = parseFloat(document.getElementById("heightInput").value) || 0;
-    const dbh = parseFloat(document.getElementById("dbhInput").value) || 0;
+    const height = parseFloat(document.getElementById("heightInput").value);
+    const dbh = parseFloat(document.getElementById("dbhInput").value);
+
+    if (height < 0 || dbh <= 0) {
+        document.getElementById("result").innerText = "Wrong parameters: height must be ≥ 0 and DBH must be > 0.";
+        document.getElementById("dropdown").innerHTML = "";
+        return;
+      }
     const aCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBnoHeight.csv"; // Replace with your actual CSV URL
     const bCsvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv";
     const csvUrl = height === 0 ? aCsvUrl : bCsvUrl;
  
-    if (!(height < 0 || dbh <= 0)) {
-        document.getElementById("result").innerText = "Height and DBH cannot both be zero.";
-        document.getElementById("dropdown").innerHTML = "";
-        return;
-      }
+   
 
 
       d3.csv(csvUrl).then(data => {
