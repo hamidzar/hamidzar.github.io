@@ -45,11 +45,7 @@
         const dropdown = document.getElementById("dropdown");
         dropdown.innerHTML = ""; // Clear previous options
 
-         if (height < 0 || dbh <= 0) {
-            document.getElementById("result").innerText = "Condition not met: height must not be 0 and DBH must be greater than 0.";
-            document.getElementById("dropdown").innerHTML = "";
-            return;
-          }
+         
 
         data.forEach(row => {
           const option = document.createElement("option");
@@ -60,13 +56,19 @@
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
 
-          }
-
-          if (height > 0 && dbh > 0) {
+          } else if (height > 0 && dbh > 0) {
           option.value = row.estimatebwood1 * DBH;
           option.text = `${row.speciesx} (${row.estimatebwood1}%)`;
           dropdown.appendChild(option);
+                    
+          } else {      
+        
+            document.getElementById("result").innerText = "Condition not met: height must not be 0 and DBH must be greater than 0.";
+            document.getElementById("dropdown").innerHTML = "";
+            return;
           }
+
+         
 
         });
 
