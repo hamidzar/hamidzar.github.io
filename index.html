@@ -10,9 +10,8 @@
   <p id="result"></p>
 
   <script>
-    const csvUrl = "https://github.com/hamidzar/hamidzar.github.io/blob/main/assets/cities.csv"; // Replace with your actual CSV URL
-
-      d3.csv(csvUrl).then(data => {
+    const csvUrl = "https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/assets/cities.csv"; // Replace with your actual CSV URL
+    d3.csv(csvUrl).then(data => {
       const dropdown = document.getElementById("dropdown");
 
       // Populate dropdown with city and humidity
