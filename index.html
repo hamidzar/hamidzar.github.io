@@ -34,25 +34,37 @@
         dropdown.innerHTML = "";
 
         data.forEach(row => {
+          const estimate = parseFloat(row.estimatebwood1);
           const option = document.createElement("option");
 
-          if (height === 0 && dbh > 0) {
-            option.value = row.estimatebwood1 *dbh
+           if (height === 0 && dbh > 0) {
+            const biomass1 = estimate *dbh;
+            const biomass2 = estimate *dbh * 5;
             option.text = `${row.speciesx}`;
+            option.setAttribute("data-biomass1", biomass1);
+            option.setAttribute("data-biomass2", biomass2);
             
           } if (height > 0 && dbh > 0)        
            {
-            option.value = row.estimatebwood1 * dbh * height;
+            const biomass1 = estimate * dbh * height;
+            const biomass2 = estimate * dbh * height * 5;
             option.text = `${row.speciesx}`;
+            option.setAttribute("data-biomass1", biomass1);
+            option.setAttribute("data-biomass2", biomass2);
           }
 
           dropdown.appendChild(option);
         });
 
         dropdown.addEventListener("change", function () {
-          const selectedValue = parseFloat(this.value);
-          const result = selectedValue
-          document.getElementById("result").innerText = `Result: ${result}`;
+          const selected = this.selectedOptions[0];
+          const biomass1 = parseFloat(selected.getAttribute("data-biomass1"));
+          const biomass2 = parseFloat(selected.getAttribute("data-biomass2"));
+
+          const resultText = `Biomass 1 (DBH × 5): ${biomass1} kg\n` +
+                             `Biomass 2 (DBH × Height): ${biomass2} kg`;
+
+          document.getElementById("result").innerText = resultText;
         });
 
         dropdown.dispatchEvent(new Event("change"));
