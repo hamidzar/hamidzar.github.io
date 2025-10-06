@@ -34,23 +34,76 @@
         dropdown.innerHTML = "";
 
         data.forEach(row => {
-          const estimate = parseFloat(row.estimatebwood1);
-          const option = document.createElement("option");
-
+        
+           const option = document.createElement("option"); 
            if (height === 0 && dbh > 0) {
-            const biomass1 = estimate *dbh;
-            const biomass2 = estimate *dbh * 5;
-            option.text = `${row.speciesx}`;
-            option.setAttribute("data-biomass1", biomass1);
-            option.setAttribute("data-biomass2", biomass2);
+            const estimate1 = parseFloat(row.estimatebwood1);
+            const estimate2 = parseFloat(row.estimatebwood2);
+            const estimate3 = parseFloat(row.estimatebbark1);
+            const estimate4 = parseFloat(row.estimatebbark2);
+            const estimate5 = parseFloat(row.estimatebbranches1);
+            const estimate6 = parseFloat(row.estimatebbranches2);
+            const estimate7 = parseFloat(row.estimatebfoliage1);
+            const estimate8 = parseFloat(row.estimatebfoliage2);
             
+
+            const ywood = estimate1 * dbh * estimate2; 
+            const ybark = estimate3 * dbh * estimate4;
+            const ystem = ywood + ybark;
+            const ybranches = estimate5 * dbh * estimate6;
+            const yfoliage = estimate7 * dbh * estimate8;
+            const ycrown1 = yfoliage + ybranches;
+            const ycrown2 = ywood + ybark + yfoliage + ybranches;
+            const ytotal = ywood + ybark + ybranches + yfoliage;
+
+            option.text = `${row.speciesx}`;
+            option.setAttribute("DBH", dbh);
+            option.setAttribute("Height", height);
+            option.setAttribute("ywood", ywood);
+            option.setAttribute("ybark", ybark);
+            option.setAttribute("ystem", ystem);
+            option.setAttribute("ybranches", ybranches);
+            option.setAttribute("yfoliage", yfoliage);
+            option.setAttribute("ycrown1", ycrown1);
+            option.setAttribute("ycrown2", ycrown2);
+            option.setAttribute("ytotal", ytotal);
+
           } if (height > 0 && dbh > 0)        
            {
-            const biomass1 = estimate * dbh * height;
-            const biomass2 = estimate * dbh * height * 5;
+            const estimate1 = parseFloat(row.estimatebwood1);
+            const estimate2 = parseFloat(row.estimatebwood2);
+            const estimate3 = parseFloat(row.estimatebwood3);
+            const estimate4 = parseFloat(row.estimatebbark1);
+            const estimate5 = parseFloat(row.estimatebbark2);
+            const estimate6 = parseFloat(row.estimatebbark3);
+            const estimate7 = parseFloat(row.estimatebbranches1);
+            const estimate8 = parseFloat(row.estimatebbranches2);
+            const estimate9 = parseFloat(row.estimatebbranches3);
+            const estimate10 = parseFloat(row.estimatebfoliage1);
+            const estimate11 = parseFloat(row.estimatebfoliage2);
+            const estimate12 = parseFloat(row.estimatebfoliage3);
+
+            const ywood = estimate1 * dbh * estimate2 * height *  estimate3;
+            const ybark = estimate4 * estimate5 * dbh * height * estimate6;
+            const ystem = ywood + ybark;
+            const ybranches = estimate7 * dbh * estimate8 * height * estimate9;
+            const yfoliage = estimate10 * dbh * estimate11 * height * estimate12;
+            const ycrown1 = yfoliage + ybranches;
+            const ycrown2 = 0; 
+            const ytotal = ywood + ybark + ybranches + yfoliage;
+
+          
             option.text = `${row.speciesx}`;
-            option.setAttribute("data-biomass1", biomass1);
-            option.setAttribute("data-biomass2", biomass2);
+            option.setAttribute("DBH", dbh);
+            option.setAttribute("Height", height);
+            option.setAttribute("ywood", ywood);
+            option.setAttribute("ybark", ybark);
+            option.setAttribute("ystem", ystem);
+            option.setAttribute("ybranches", ybranches);
+            option.setAttribute("yfoliage", yfoliage);
+            option.setAttribute("ycrown1", ycrown1);
+            option.setAttribute("ycrown2", ycrown2);
+            option.setAttribute("ytotal", ytotal);
           }
 
           dropdown.appendChild(option);
@@ -58,11 +111,29 @@
 
         dropdown.addEventListener("change", function () {
           const selected = this.selectedOptions[0];
-          const biomass1 = parseFloat(selected.getAttribute("data-biomass1"));
-          const biomass2 = parseFloat(selected.getAttribute("data-biomass2"));
 
-          const resultText = `Biomass 1 (DBH × 5): ${biomass1} kg\n` +
-                             `Biomass 2 (DBH × Height): ${biomass2} kg`;
+          const Height = parseFloat(selected.getAttribute("height"));
+          const DBH = parseFloat(selected.getAttribute("dbh"));
+          const ywood = parseFloat(selected.getAttribute("ywood"));
+          const ybark = parseFloat(selected.getAttribute("ybark"));
+          const ystem = parseFloat(selected.getAttribute("ystem"));
+          const ybranches = parseFloat(selected.getAttribute("ybranches"));
+          const yfoliage = parseFloat(selected.getAttribute("yfoliage"));
+          const ycrown1 = parseFloat(selected.getAttribute("ycrown1"));
+          const ycrown2 = parseFloat(selected.getAttribute("ycrown2"));
+          const ytotal = parseFloat(selected.getAttribute("ytotal"));
+          
+          const resultText = `Height : ${height} \n` +
+                              `DBH : ${dbh} \n` +
+                              `ywood : ${ywood} \n` +
+                              `ybark : ${ybark} \n` +
+                              `ystem : ${ystem} \n` +
+                              `ybranches : ${ybranches} \n` +
+                              `yfoliage : ${yfoliage} \n` +
+                              `ycrown1 : ${ycrown1} \n` +
+                              `ycrown2 : ${ycrown2} \n` +
+                              `ytotal : ${ytotal} \n` ;
+                              
 
           document.getElementById("result").innerText = resultText;
         });
