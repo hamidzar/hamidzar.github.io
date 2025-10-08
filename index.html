@@ -125,17 +125,19 @@
           
           const resultText = `Height : ${height} \n` +
                               `DBH : ${dbh} \n` +
-                              `ywood : ${ywood} \n` +
-                              `ybark : ${ybark} \n` +
-                              `ystem : ${ystem} \n` +
-                              `ybranches : ${ybranches} \n` +
-                              `yfoliage : ${yfoliage} \n` +
-                              `ycrown1 : ${ycrown1} \n` +
-                              `ycrown2 : ${ycrown2} \n` +
-                              `ytotal : ${ytotal} \n` ;
+                              `ywood : ${ywood.toFixed(6)} \n` +
+                              `ybark : ${ybark.toFixed(6)} \n` +
+                              `ystem : ${ystem.toFixed(6)} \n` +
+                              `ybranches : ${ybranches.toFixed(6)} \n` +
+                              `yfoliage : ${yfoliage.toFixed(6)} \n` +
+                              `ycrown1 : ${ycrown1.toFixed(6)} \n` +
+                              `ycrown2 : ${ycrown2.toFixed(6)} \n` +
+                              `ytotal : ${ytotal.toFixed(6)} \n` ;
                               
 
-          document.getElementById("result").innerText = resultText;
+          const resultElement = document.getElementById("result");
+          resultElement.innerText = resultText;
+          resultElement.style.color = "black";
         });
 
         dropdown.dispatchEvent(new Event("change"));
