@@ -6,17 +6,17 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-  <h2>Select Tree Species</h2>
-
+  <h2>Biomass Calculator</h2>
+    
 <label for="dropdown">Species:</label>
 <select id="dropdown"></select>
 
 <!-- Hidden input section -->
 <div id="inputSection" style="display:none; margin-top: 20px;">
-  <label for="heightInput">Height:</label>
+  <label for="heightInput">Height in Meter:</label>
   <input type="number" id="heightInput" step="0.01" value="0" />
 
-  <label for="dbhInput">DBH:</label>
+  <label for="dbhInput">DBH in Centemeter:</label>
   <input type="number" id="dbhInput" step="0.01" value="0" />
 
   <button onclick="calculateBiomass()">Calculate Biomass</button>
