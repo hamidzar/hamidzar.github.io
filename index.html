@@ -116,6 +116,99 @@ data.forEach(row => {
   }
 </script>
 
+<hr>
+<h3>Bulk Upload (CSV or Excel)</h3>
+<input type="file" id="bulkFileInput" accept=".csv, .xlsx, .xls" />
+<button onclick="handleBulkUpload()">Process File</button>
+<pre id="bulkResult" style="white-space: pre-wrap; margin-top: 10px;"></pre>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+async function handleBulkUpload() {
+  const fileInput = document.getElementById("bulkFileInput");
+  const bulkResult = document.getElementById("bulkResult");
+  const file = fileInput.files[0];
+  if (!file) return alert("Please select a file.");
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: "array" });
+    const sheetName = workbook.SheetNames[0];
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+    const agbNoHeight = await d3.csv("https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBnoHeight.csv");
+    const agbWithHeight = await d3.csv("https://raw.githubusercontent.com/hamidzar/hamidzar.github.io/main/biomass/AGBwithheights.csv");
+
+    let output = "";
+
+    rows.forEach((row, index) => {
+      const species = (row.species ?? row.Species ?? "").trim();
+
+      const height = parseFloat(row.Height ?? row.height ?? "0");
+      const dbh = parseFloat(row.DBH ?? row.dbh ?? "0");
+
+
+      if (!species || isNaN(height) || isNaN(dbh) || height < 0 || dbh <= 0) {
+        output += `Row ${index + 2}: The record does not have right information.\n`;
+        return;
+      }
+
+      let match = null;
+      let ywood = 0, ybark = 0, ystem = 0, ybranches = 0, yfoliage = 0, ycrown1 = 0, ycrown2 = 0, ytotal = 0;
+
+      if (height === 0) {
+        match = agbNoHeight.find(d => d.speciesx.trim() === species);
+        if (!match) {
+          output += `Row ${index + 2}: Species "${species}" not found in AGBnoHeight dataset.\n`;
+          return;
+        }
+
+        ywood = parseFloat(match.estimatebwood1) * (dbh ** parseFloat(match.estimatebwood2));
+        ybark = parseFloat(match.estimatebbark1) * (dbh ** parseFloat(match.estimatebbark2));
+        ystem = ywood + ybark;
+        ybranches = parseFloat(match.estimatebbranches1) * (dbh ** parseFloat(match.estimatebbranches2));
+        yfoliage = parseFloat(match.estimatebfoliage1) * (dbh ** parseFloat(match.estimatebfoliage2));
+        ycrown1 = yfoliage + ybranches;
+        ycrown2 = ywood + ybark + ybranches + yfoliage;
+        ytotal = ywood + ybark + ybranches + yfoliage;
+      }
+
+      if (height > 0) {
+        match = agbWithHeight.find(d => d.speciesx.trim() === species);
+        if (!match) {
+          output += `Row ${index + 2}: Species "${species}" not found in AGBwithheights dataset.\n`;
+          return;
+        }
+
+        ywood = parseFloat(match.estimatebwood1) * (dbh ** parseFloat(match.estimatebwood2)) * (height ** parseFloat(match.estimatebwood3));
+        ybark = parseFloat(match.estimatebbark1) * (dbh ** parseFloat(match.estimatebbark2)) * (height ** parseFloat(match.estimatebbark3));
+        ystem = ywood + ybark;
+        ybranches = parseFloat(match.estimatebbranches1) * (dbh ** parseFloat(match.estimatebbranches2)) * (height ** parseFloat(match.estimatebbranches3));
+        yfoliage = parseFloat(match.estimatebfoliage1) * (dbh ** parseFloat(match.estimatebfoliage2)) * (height ** parseFloat(match.estimatebfoliage3));
+        ycrown1 = yfoliage + ybranches;
+        ycrown2 = 0;
+        ytotal = ywood + ybark + ybranches + yfoliage;
+      }
+
+      output += `Row ${index + 2} [${species}]:\n` +
+                `  ywood: ${ywood.toFixed(6)}\n` +
+                `  ybark: ${ybark.toFixed(6)}\n` +
+                `  ystem: ${ystem.toFixed(6)}\n` +
+                `  ybranches: ${ybranches.toFixed(6)}\n` +
+                `  yfoliage: ${yfoliage.toFixed(6)}\n` +
+                `  ycrown1: ${ycrown1.toFixed(6)}\n` +
+                `  ycrown2: ${ycrown2.toFixed(6)}\n` +
+                `  ytotal: ${ytotal.toFixed(6)}\n\n`;
+    });
+
+    bulkResult.innerText = output;
+  };
+
+  reader.readAsArrayBuffer(file);
+} 
+</script>
 
 </body>
 </html>
