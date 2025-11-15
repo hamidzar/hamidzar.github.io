@@ -28,7 +28,7 @@ d3.json(earthquake1_url, function (geoJson) {
 
             }
         },
-        // Add pop-up with related information 
+        // Pop-up 
         onEachFeature: function (feature, layer) {
             layer.bindPopup(
                 "<h4 style='text-align:center;'>" + new Date(feature.properties.time) +
@@ -42,7 +42,7 @@ d3.json(earthquake1_url, function (geoJson) {
 var earthquake2 = new L.LayerGroup();
 
 d3.json(earthquake2_url, function (geoJson) {
-    //Create Marker
+    //CircleMarker
     L.geoJSON(geoJson.features, {
         pointToLayer: function (geoJsonPoint, latlng) {
             return L.circleMarker(latlng, { radius: markerSize(geoJsonPoint.properties.mag) });
@@ -57,7 +57,7 @@ d3.json(earthquake2_url, function (geoJson) {
 
             }
         },
-        // Add pop-up with related information 
+        // Pop-up 
         onEachFeature: function (feature, layer) {
             layer.bindPopup(
                 "<h4 style='text-align:center;'>" + new Date(feature.properties.time) +
@@ -71,7 +71,7 @@ d3.json(earthquake2_url, function (geoJson) {
 var earthquake3 = new L.LayerGroup();
 
 d3.json(earthquake3_url, function (geoJson) {
-    //Create Marker
+    //CircleMarker
     L.geoJSON(geoJson.features, {
         pointToLayer: function (geoJsonPoint, latlng) {
             return L.circleMarker(latlng, { radius: markerSize(geoJsonPoint.properties.mag) });
@@ -86,7 +86,7 @@ d3.json(earthquake3_url, function (geoJson) {
 
             }
         },
-        // Add pop-up with related information 
+        // Pop-up 
         onEachFeature: function (feature, layer) {
             layer.bindPopup(
                 "<h4 style='text-align:center;'>" + new Date(feature.properties.time) +
@@ -99,7 +99,7 @@ d3.json(earthquake3_url, function (geoJson) {
 var earthquake4 = new L.LayerGroup();
 
 d3.json(earthquake4_url, function (geoJson) {
-    //Create Marker
+    //CircleMarker
     L.geoJSON(geoJson.features, {
         pointToLayer: function (geoJsonPoint, latlng) {
             return L.circleMarker(latlng, { radius: markerSize(geoJsonPoint.properties.mag) });
@@ -114,7 +114,7 @@ d3.json(earthquake4_url, function (geoJson) {
 
             }
         },
-        // Add pop-up with related information 
+        // Pop-up
         onEachFeature: function (feature, layer) {
             layer.bindPopup(
                 "<h4 style='text-align:center;'>" + new Date(feature.properties.time) +
@@ -127,7 +127,7 @@ d3.json(earthquake4_url, function (geoJson) {
 
 
 function createMap() {
-   // Tile layer (initial map) whhich comes from map Box
+   // Tile layer from MapBox
 
     var tiles = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
         attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
@@ -141,7 +141,6 @@ function createMap() {
     var satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>',
         maxZoom: 13,
-        // Type of map box
         id: 'mapbox.satellite',
         accessToken: API_KEY
     });
@@ -150,7 +149,6 @@ function createMap() {
     var terrain_rgb = L.tileLayer('https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>',
         maxZoom: 13,
-        // Type of map box
         id: 'mapbox.outdoors',
         accessToken: API_KEY
     });
@@ -158,7 +156,6 @@ function createMap() {
      var Terrian = L.tileLayer('https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>',
         maxZoom: 13,
-        // Type of map box
         id: 'mapbox.Terrian',
         accessToken: API_KEY
     });
@@ -179,7 +176,7 @@ function createMap() {
     };
 
   
-    //Intiate Leaflet map (map id)  
+    //Leaflet map (map id)  
     var mymap = L.map('map', {
         //Recenter the map
         center: [38.9637, 35.2433],
@@ -210,7 +207,7 @@ function createMap() {
         return div;
     };
     legend.addTo(mymap);
-}   // Function for Color of the marker related to the magnitude of the earthquake.
+}   // Color function of the circlemarker related to the magnitude of the earthquake.
     function Color(magnitude) {
         if (magnitude > 5) {
           return  "#6E0C21";
