@@ -1,16 +1,18 @@
 
 
-var earthquake_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
-var plate_url = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+var earthquake1_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson"
+var earthquake2_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson"
+var earthquake3_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
+var earthquake4_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 
 
 function markerSize(magnitude) {
     return magnitude * 4;
 };
 
-var earthquake = new L.LayerGroup();
+var earthquake1 = new L.LayerGroup();
 
-d3.json(earthquake_url, function (geoJson) {
+d3.json(earthquake1_url, function (geoJson) {
     //Create Marker
     L.geoJSON(geoJson.features, {
         pointToLayer: function (geoJsonPoint, latlng) {
@@ -32,22 +34,98 @@ d3.json(earthquake_url, function (geoJson) {
                 "<h4 style='text-align:center;'>" + new Date(feature.properties.time) +
                 "</h4> <hr> <h5 style='text-align:center;'>" + feature.properties.title + "</h5>");
         }
-    }).addTo(earthquake);
-    createMap(earthquake);
+    }).addTo(earthquake1);
+    createMap(earthquake1);
 });
 
-var faultline = new L.LayerGroup();
 
-d3.json(plate_url, function (geoJson) {
+var earthquake2 = new L.LayerGroup();
+
+d3.json(earthquake2_url, function (geoJson) {
+    //Create Marker
     L.geoJSON(geoJson.features, {
+        pointToLayer: function (geoJsonPoint, latlng) {
+            return L.circleMarker(latlng, { radius: markerSize(geoJsonPoint.properties.mag) });
+        },
+
         style: function (geoJsonFeature) {
             return {
-                weight: 2,
-                color: 'blue'
+                fillColor: Color(geoJsonFeature.properties.mag),
+                fillOpacity: 0.7,
+                weight: 0.1,
+                color: 'black'
+
             }
         },
-    }).addTo(faultline);
-})
+        // Add pop-up with related information 
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(
+                "<h4 style='text-align:center;'>" + new Date(feature.properties.time) +
+                "</h4> <hr> <h5 style='text-align:center;'>" + feature.properties.title + "</h5>");
+        }
+    }).addTo(earthquake2);
+    createMap(earthquake2);
+});
+
+
+var earthquake3 = new L.LayerGroup();
+
+d3.json(earthquake3_url, function (geoJson) {
+    //Create Marker
+    L.geoJSON(geoJson.features, {
+        pointToLayer: function (geoJsonPoint, latlng) {
+            return L.circleMarker(latlng, { radius: markerSize(geoJsonPoint.properties.mag) });
+        },
+
+        style: function (geoJsonFeature) {
+            return {
+                fillColor: Color(geoJsonFeature.properties.mag),
+                fillOpacity: 0.7,
+                weight: 0.1,
+                color: 'black'
+
+            }
+        },
+        // Add pop-up with related information 
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(
+                "<h4 style='text-align:center;'>" + new Date(feature.properties.time) +
+                "</h4> <hr> <h5 style='text-align:center;'>" + feature.properties.title + "</h5>");
+        }
+    }).addTo(earthquake3);
+    createMap(earthquake3);
+});
+
+var earthquake4 = new L.LayerGroup();
+
+d3.json(earthquake4_url, function (geoJson) {
+    //Create Marker
+    L.geoJSON(geoJson.features, {
+        pointToLayer: function (geoJsonPoint, latlng) {
+            return L.circleMarker(latlng, { radius: markerSize(geoJsonPoint.properties.mag) });
+        },
+
+        style: function (geoJsonFeature) {
+            return {
+                fillColor: Color(geoJsonFeature.properties.mag),
+                fillOpacity: 0.7,
+                weight: 0.1,
+                color: 'black'
+
+            }
+        },
+        // Add pop-up with related information 
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(
+                "<h4 style='text-align:center;'>" + new Date(feature.properties.time) +
+                "</h4> <hr> <h5 style='text-align:center;'>" + feature.properties.title + "</h5>");
+        }
+    }).addTo(earthquake4);
+    createMap(earthquake4);
+});
+
+
+
 function createMap() {
    // Tile layer (initial map) whhich comes from map Box
 
@@ -94,18 +172,19 @@ function createMap() {
          
     };
     var overlays = {
-        "Tectonic Plates": faultline,
-        "Earthquakes": earthquake,
-        
+        "Past Hour": earthquake1,
+        "Past Day": earthquake2,
+        "Past 7 Days": earthquake3,
+        "Past 30 Days": earthquake4,
     };
 
   
     //Intiate Leaflet map (map id)  
     var mymap = L.map('map', {
         //Recenter the map
-        center: [37.8968, -119.5828],
+        center: [38.9637, 35.2433],
         zoom: 3.5,
-        layers: [satellite, earthquake, faultline]
+        layers: [tiles, earthquake4]
     });
 
     
@@ -134,16 +213,16 @@ function createMap() {
 }   // Function for Color of the marker related to the magnitude of the earthquake.
     function Color(magnitude) {
         if (magnitude > 5) {
-          return  "#e76818";
+          return  "#6E0C21";
         } else if (magnitude > 4) {
-            return "#f29e2e";
+            return "#e76818";
         } else if (magnitude > 3) {
-            return "#f9d057";
+            return "#F6F967";
         } else if (magnitude > 2) {
-            return "#90eb9d";
+            return "#8B0BF5";
         } else if (magnitude > 1) {
-            return "#00ccbc";
+            return "#B15AF8";
         } else {
-            return 'green'
+            return '#DCB6FC'
         }
       };
